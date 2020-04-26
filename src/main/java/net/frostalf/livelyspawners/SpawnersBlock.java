@@ -16,16 +16,21 @@ import org.bukkit.block.Block;
 public class SpawnersBlock {
 
     private Block block;
-    private int spawnerLives = 0;
+    private int spawnerLives;
     private Location spawnerLocation;
 
-    public SpawnersBlock(Block block) {
+    public SpawnersBlock(Block block, int lives) {
         this.block = block;
+        this.spawnerLives = lives;
         spawnerLocation = this.block.getLocation();
     }
 
     public int getSpawnerLives() {
         return this.spawnerLives;
+    }
+
+    public void reduceLives() {
+        this.spawnerLives -= 1;
     }
 
     public Block getSpawner() {

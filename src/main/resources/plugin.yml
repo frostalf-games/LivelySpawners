@@ -1,0 +1,5 @@
+name: LivelySpawners
+version: ${project.version}
+main: net.frostalf.livelyspawners.LivelySpawners
+authors: [Frostalf]
+api-version: "1.13"
