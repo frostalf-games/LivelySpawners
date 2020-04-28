@@ -7,6 +7,7 @@ package net.frostalf.livelyspawners.listeners;
 
 import net.frostalf.livelyspawners.LivelySpawners;
 import net.frostalf.livelyspawners.SpawnersBlock;
+import net.frostalf.livelyspawners.util.SpawnersPermEnum;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -31,27 +32,29 @@ public class SpawnersBlockListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
+        Location blockLocation = block.getLocation();
         World world = block.getWorld();
         Player player = event.getPlayer();
         //SpawnersBlock spawnBlock = new SpawnersBlock(block, spawnerLives);
         if (world.toString().equalsIgnoreCase(plugin.getConfig().getString("world"))) {
-            Location blockLocation = block.getLocation();
             int spawnerLives = plugin.getConfig().getInt("lives") - 1;
             if (plugin.getSpawnersMap().containsKey(blockLocation)) {
                 SpawnersBlock spawnBlock = plugin.getSpawnersMap().get(blockLocation);
                 if (spawnBlock.getSpawnerLives() != 0) {
                     spawnBlock.reduceLives();
+                    event.setCancelled(true);
                 } else {
                     block.breakNaturally();
                     ItemStack is = new ItemStack(Material.getMaterial(plugin.getConfig().getString("item_drop")), plugin.getConfig().getInt("item_amount"));
                     plugin.getServer().getWorld(block.getWorld().toString()).dropItemNaturally(blockLocation, is);
                 }
             } else {
-                spawnBlock = new SpawnersBlock(block, spawnerLives);
+                spawnBlock = new SpawnersBlock(blockLocation, spawnerLives);
                 plugin.getSpawnersMap().put(blockLocation, spawnBlock);
+                plugin.spawnBlockLocationList().add(blockLocation.toString());
+                event.setCancelled(true);
             }
         }
         plugin.getServer().getWorld("").createExplosion(block.getLocation(), Float.valueOf(plugin.getConfig().getString("explosivepower")), true, false);
-        event.setCancelled(true);
     }
 }

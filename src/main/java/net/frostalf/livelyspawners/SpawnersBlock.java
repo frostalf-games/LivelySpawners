@@ -19,8 +19,8 @@ public class SpawnersBlock {
     private int spawnerLives;
     private Location spawnerLocation;
 
-    public SpawnersBlock(Block block, int lives) {
-        this.block = block;
+    public SpawnersBlock(Location location, int lives) {
+        this.block = location.getBlock();
         this.spawnerLives = lives;
         spawnerLocation = this.block.getLocation();
     }
