@@ -2,4 +2,12 @@ name: LivelySpawners
 version: ${project.version}
 main: net.frostalf.livelyspawners.LivelySpawners
 authors: [Frostalf]
-api-version: "1.13"
+api-version: "1.15"
+commands:
+    livelyspawners:
+        description: LivelySpawners
+permissions:
+    livelyspawners.*:
+        default: OP
+    livelyspawners.admin:
+        default: OP

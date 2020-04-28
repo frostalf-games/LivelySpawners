@@ -7,7 +7,7 @@ package net.frostalf.livelyspawners.listeners;
 
 import net.frostalf.livelyspawners.LivelySpawners;
 import net.frostalf.livelyspawners.SpawnersBlock;
-import net.frostalf.livelyspawners.util.SpawnersPermEnum;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -17,8 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.metadata.MetadataValueAdapter;
+
 
 /**
  *
@@ -42,6 +41,7 @@ public class SpawnersBlockListener implements Listener {
                 SpawnersBlock spawnBlock = plugin.getSpawnersMap().get(blockLocation);
                 if (spawnBlock.getSpawnerLives() != 0) {
                     spawnBlock.reduceLives();
+                    player.sendMessage(ChatColor.valueOf(plugin.getConfig().getString("color")) + plugin.getConfig().getString("message").replace("%number%", String.valueOf(spawnBlock.getSpawnerLives())));
                     event.setCancelled(true);
                 } else {
                     block.breakNaturally();

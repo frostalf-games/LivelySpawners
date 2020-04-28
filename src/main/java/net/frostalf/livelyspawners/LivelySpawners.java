@@ -8,7 +8,9 @@ package net.frostalf.livelyspawners;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import net.frostalf.livelyspawners.commands.SpawnersBaseCommand;
 import net.frostalf.livelyspawners.data.SpawnersData;
+import net.frostalf.livelyspawners.listeners.SpawnersBlockListener;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +35,8 @@ public class LivelySpawners extends JavaPlugin {
         spawnersMap = new ConcurrentHashMap();
         spawnerData = SpawnersData.getSpawnersDataInstance();
         init();
+        this.getServer().getPluginManager().registerEvents(new SpawnersBlockListener(), this);
+        this.getCommand("livelyspawners").setExecutor(new SpawnersBaseCommand());
     }
 
     @Override
@@ -76,5 +80,4 @@ public class LivelySpawners extends JavaPlugin {
             }
         }
     }
-
 }
